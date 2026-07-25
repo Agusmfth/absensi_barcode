@@ -1,0 +1,3 @@
+<?php
+namespace App\Exports; use Illuminate\Support\Collection; use Maatwebsite\Excel\Concerns\{FromCollection,WithHeadings,WithMapping};
+class AttendanceExport implements FromCollection,WithHeadings,WithMapping{public function __construct(private Collection $rows){}public function collection(){return $this->rows;}public function headings():array{return['Tanggal','NIS','Nama','Kelas','Jam Masuk','Status','Metode','Petugas','Keterangan'];}public function map($a):array{return[$a->attendance_date->format('d-m-Y'),$a->student->nis,$a->student->name,$a->student->schoolClass->class_name,$a->check_in_time,$a->status,$a->method,$a->recorder->name,$a->notes];}}

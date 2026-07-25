@@ -1,0 +1,3 @@
+<?php
+namespace App\Services; use App\Models\Student; use Illuminate\Support\Str;
+class StudentBarcodeService{public function generateToken():string{do{$token='STD-'.now()->year.'-'.strtoupper(Str::random(12));}while(Student::withTrashed()->where('barcode_token',$token)->exists());return $token;}public function regenerate(Student $student):Student{$student->update(['barcode_token'=>$this->generateToken(),'barcode_image'=>null]);return $student->refresh();}public function svg(Student $student,int $size=180):string{return \QrCode::format('svg')->size($size)->margin(1)->generate($student->barcode_token);}}
