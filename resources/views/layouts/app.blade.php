@@ -33,6 +33,7 @@
                     <a href="{{ route('teachers.index') }}" class="nav-link"><i class="bi bi-person-badge"></i> Guru</a>
                     <a href="{{ route('classes.index') }}" class="nav-link {{ request()->routeIs('classes.*') ? 'active' : '' }}"><i class="bi bi-building"></i> Kelas</a>
                     <a href="{{ route('users.index') }}" class="nav-link"><i class="bi bi-person-gear"></i> Pengguna</a>
+                    <a href="{{ route('promotions.index') }}" class="nav-link {{ request()->routeIs('promotions.*') ? 'active' : '' }}"><i class="bi bi-mortarboard"></i> Kenaikan Kelas</a>
                 </div>
             @elseif (auth()->user()->role !== 'kepala_sekolah')
                 <a href="{{ route('students.index') }}" class="nav-link"><i class="bi bi-people"></i> Siswa Kelas Saya</a>

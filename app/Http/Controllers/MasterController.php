@@ -6,11 +6,36 @@ use App\Models\SchoolClass;
 use App\Models\SchoolSetting;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\Student;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class MasterController extends Controller
 {
+    public function promotion()
+    {
+        return view('master.promotion', [
+            'students' => Student::with('schoolClass')->where('is_active', true)->orderBy('class_id')->orderBy('name')->get(),
+            'classes' => SchoolClass::where('is_active', true)->orderBy('grade_level')->orderBy('class_name')->get(),
+        ]);
+    }
+
+    public function promotionSave(Request $request)
+    {
+        $data = $request->validate(['decisions'=>'required|array','decisions.*'=>'required|string']);
+        $students = Student::whereIn('id', array_keys($data['decisions']))->get();
+        DB::transaction(function () use ($students, $data) {
+            foreach ($students as $student) {
+                $decision = $data['decisions'][$student->id];
+                if ($decision === 'graduate') { $student->update(['is_active'=>false]); continue; }
+                if ($decision === 'stay') { $student->update(['is_active'=>true]); continue; }
+                abort_unless(ctype_digit($decision) && SchoolClass::whereKey($decision)->exists(), 422, 'Kelas tujuan tidak valid.');
+                $student->update(['class_id'=>(int) $decision, 'is_active'=>true]);
+            }
+        });
+        return back()->with('success', 'Proses kenaikan kelas berhasil disimpan.');
+    }
     public function teachers(Request $request)
     {
         $items = Teacher::with('schoolClass')
