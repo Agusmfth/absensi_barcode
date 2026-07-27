@@ -10,7 +10,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
 </head>
-<body>
+<body class="{{ request()->routeIs('dashboard') ? 'dashboard-page' : '' }}">
 <div id="actionLoading" class="action-loading" aria-hidden="true"><div class="loading-box"><span class="spinner-border text-primary"></span><strong>Memproses...</strong><small>Mohon tunggu sebentar</small></div></div>
 <div class="modal fade" id="confirmActionModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content border-0 shadow-lg"><div class="modal-body text-center p-4"><div class="confirm-icon"><i class="bi bi-question-lg"></i></div><h5 class="mt-3 mb-2">Konfirmasi Aksi</h5><p id="confirmActionText" class="text-muted small mb-4">Apakah Anda yakin ingin melanjutkan?</p><div class="d-flex gap-2"><button type="button" class="btn btn-soft w-50" data-bs-dismiss="modal">Batal</button><button type="button" id="confirmActionButton" class="btn btn-primary w-50">Ya, lanjutkan</button></div></div></div></div></div>
 <div class="d-flex">
