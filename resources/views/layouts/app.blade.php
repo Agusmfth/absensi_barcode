@@ -8,6 +8,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if(auth()->user()->isWali())
+    <style>
+        body.wali-layout .sidebar{display:block!important;width:100%!important;min-height:0!important;height:76px!important;position:fixed!important;inset:auto 0 0!important;padding:0!important;background:transparent!important;transform:none!important;z-index:1050!important}
+        body.wali-layout .main{margin-left:0!important;padding-bottom:94px;width:100%;min-width:0}
+        body.wali-layout .topbar{position:sticky;top:0;z-index:1020}
+        body.wali-layout #menuToggle{display:none!important}
+        .wali-bottom-nav{width:min(680px,calc(100% - 24px));height:68px;margin:0 auto 8px;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;padding:5px 8px;background:#fff;border:1px solid #e5ebf4;border-radius:20px;box-shadow:0 10px 35px #092b6230}
+        .wali-nav-item{height:55px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#8794a7;text-decoration:none;font-size:.65rem;font-weight:650;border-radius:14px}
+        .wali-nav-item>i{font-size:1.18rem}.wali-nav-item.active{color:#146ee8;background:#edf5ff}
+        .wali-scan-item{position:relative;overflow:visible;color:#146ee8}.wali-scan-item.active{background:transparent}
+        .wali-scan-button{width:58px;height:58px;margin-top:-31px;display:grid;place-items:center;border-radius:50%;color:#fff;background:linear-gradient(145deg,#176fe8,#0b4fc2);border:5px solid #f4f7fb;box-shadow:0 8px 20px #146ee84d}
+        .wali-scan-button i{font-size:1.45rem}.wali-scan-item>span:last-child{margin-top:1px}
+        .wali-scan-item.active .wali-scan-button{box-shadow:0 8px 22px #146ee866,0 0 0 3px #bcd7ff}
+        @media(max-width:575.98px){body.wali-layout .main{padding-bottom:88px}.wali-bottom-nav{width:calc(100% - 16px);border-radius:18px}.manual-attendance-card .student-table{min-width:0;width:100%}.manual-attendance-card thead{display:none}.manual-attendance-card tbody,.manual-attendance-card tr{display:block;width:100%}.manual-attendance-card tbody tr{padding:14px;border-bottom:1px solid #edf0f4}.manual-attendance-card tbody td{display:block;width:100%;padding:5px 0;border:0}.manual-attendance-card tbody td:first-child{padding-bottom:10px}.manual-attendance-card tbody td[data-label]:before{content:attr(data-label);display:block;margin-bottom:5px;color:#748299;font-size:.65rem;font-weight:700;text-transform:uppercase}.manual-attendance-card .form-select,.manual-attendance-card .form-control{width:100%;max-width:100%;min-width:0}.manual-attendance-card .card-footer .btn{width:100%}}
+    </style>
+    @endif
     @stack('head')
 </head>
 <body class="{{ request()->routeIs('dashboard') ? 'dashboard-page' : '' }} {{ auth()->user()->isWali() ? 'wali-layout' : '' }}">
