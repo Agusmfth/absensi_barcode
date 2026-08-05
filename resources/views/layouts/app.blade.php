@@ -10,11 +10,30 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
 </head>
-<body class="{{ request()->routeIs('dashboard') ? 'dashboard-page' : '' }}">
+<body class="{{ request()->routeIs('dashboard') ? 'dashboard-page' : '' }} {{ auth()->user()->isWali() ? 'wali-layout' : '' }}">
 <div id="actionLoading" class="action-loading" aria-hidden="true"><div class="loading-box"><span class="spinner-border text-primary"></span><strong>Memproses...</strong><small>Mohon tunggu sebentar</small></div></div>
 <div class="modal fade" id="confirmActionModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content border-0 shadow-lg"><div class="modal-body text-center p-4"><div class="confirm-icon"><i class="bi bi-question-lg"></i></div><h5 class="mt-3 mb-2">Konfirmasi Aksi</h5><p id="confirmActionText" class="text-muted small mb-4">Apakah Anda yakin ingin melanjutkan?</p><div class="d-flex gap-2"><button type="button" class="btn btn-soft w-50" data-bs-dismiss="modal">Batal</button><button type="button" id="confirmActionButton" class="btn btn-primary w-50">Ya, lanjutkan</button></div></div></div></div></div>
 <div class="d-flex">
     <aside id="sidebar" class="sidebar p-3 text-white">
+        @if(auth()->user()->isWali())
+        <nav class="wali-bottom-nav" aria-label="Menu wali kelas">
+            <a href="{{ route('dashboard') }}" class="wali-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <i class="bi bi-grid"></i><span>Beranda</span>
+            </a>
+            <a href="{{ route('students.index') }}" class="wali-nav-item {{ request()->routeIs('students.*') ? 'active' : '' }}">
+                <i class="bi bi-people"></i><span>Siswa</span>
+            </a>
+            <a href="{{ route('attendance.scan') }}" class="wali-nav-item wali-scan-item {{ request()->routeIs('attendance.scan') ? 'active' : '' }}" aria-label="Scan siswa">
+                <span class="wali-scan-button"><i class="bi bi-qr-code-scan"></i></span><span>Scan</span>
+            </a>
+            <a href="{{ route('attendance.manual') }}" class="wali-nav-item {{ request()->routeIs('attendance.manual') ? 'active' : '' }}">
+                <i class="bi bi-pencil-square"></i><span>Manual</span>
+            </a>
+            <a href="{{ route('reports.index') }}" class="wali-nav-item {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                <i class="bi bi-bar-chart-line"></i><span>Rekap</span>
+            </a>
+        </nav>
+        @else
         <div class="brand mb-4">
             <i class="bi bi-mortarboard-fill"></i>
             <span>Sistem Absensi<br><small>Siswa Sekolah</small></span>
@@ -59,6 +78,7 @@
                 <a href="{{ route('settings.index') }}" class="nav-link"><i class="bi bi-gear"></i> Pengaturan</a>
             @endif
         </nav>
+        @endif
     </aside>
 
     <main class="main flex-grow-1">

@@ -27,7 +27,7 @@
 </div>
 
 @if ($students->count())
-    <form method="post" action="{{ route('attendance.manual.store') }}" class="card content-card border-0 shadow-sm">
+    <form method="post" action="{{ route('attendance.manual.store') }}" class="card content-card manual-attendance-card border-0 shadow-sm">
         @csrf
         <input type="hidden" name="class_id" value="{{ $classId }}">
         <div class="card-body border-bottom d-flex flex-wrap justify-content-between align-items-end gap-3">
@@ -41,8 +41,8 @@
                 @foreach ($students as $student)
                     <tr>
                         <td><strong>{{ $student->name }}</strong><br><small class="text-muted">NIS {{ $student->nis }}</small></td>
-                        <td><select name="attendances[{{ $student->id }}][status]" class="form-select"><option value="alfa" selected>Alfa / Tidak Hadir</option><option value="hadir">Hadir</option><option value="terlambat">Terlambat</option><option value="izin">Izin</option><option value="sakit">Sakit</option><option value="alfa">Alfa</option></select></td>
-                        <td><input class="form-control" name="attendances[{{ $student->id }}][notes]" placeholder="Opsional"></td>
+                        <td data-label="Status"><select name="attendances[{{ $student->id }}][status]" class="form-select"><option value="alfa" selected>Alfa</option><option value="hadir">Hadir</option><option value="terlambat">Terlambat</option><option value="izin">Izin</option><option value="sakit">Sakit</option></select></td>
+                        <td data-label="Keterangan"><input class="form-control" name="attendances[{{ $student->id }}][notes]" placeholder="Keterangan (opsional)"></td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -52,5 +52,4 @@
     </form>
 @endif
 @endsection
-
 
